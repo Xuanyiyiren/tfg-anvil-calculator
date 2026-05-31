@@ -1,4 +1,4 @@
-import { calculateResults } from "./calculator.js";
+import { calculateResult } from "./calculator.js";
 
 function createActionImage(action) {
   const img = document.createElement("img");
@@ -56,6 +56,12 @@ function renderResults(setupActions, finalInstructions) {
   document.getElementById("result").classList.add("visible");
 }
 
+function hideResults() {
+  document.getElementById("result").classList.remove("visible");
+  document.getElementById("setup-actions").innerHTML = "";
+  document.getElementById("final-actions").innerHTML = "";
+}
+
 function resetPage() {
   document.getElementById("target-value").value = "";
 
@@ -71,9 +77,7 @@ function resetPage() {
     }
   });
 
-  document.getElementById("result").classList.remove("visible");
-  document.getElementById("setup-actions").innerHTML = "";
-  document.getElementById("final-actions").innerHTML = "";
+  hideResults();
 }
 
 function setupInstructionListener(selector) {
@@ -138,10 +142,23 @@ function initializeInstructionListeners() {
 
 function bindCalculator() {
   document.getElementById("calculate-button").addEventListener("click", () => {
-    const targetValue = parseInt(document.getElementById("target-value").value, 10);
-    const instructions = collectInstructions();
-    const { setupActions, finalInstructions } = calculateResults(targetValue, instructions);
+    const targetInput = document.getElementById("target-value");
+    if (!targetInput.reportValidity()) {
+      hideResults();
+      return;
+    }
 
+    const targetValue = targetInput.valueAsNumber;
+    const instructions = collectInstructions();
+    const results = calculateResult(targetValue, instructions);
+
+    if (results === null) {
+      hideResults();
+      window.alert("No valid forging sequence was found for the selected target value and instructions.");
+      return;
+    }
+
+    const { setupActions, finalInstructions } = results;
     renderResults(setupActions, finalInstructions);
   });
 }

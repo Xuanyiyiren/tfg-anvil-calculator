@@ -133,16 +133,8 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-#github-icon {
-  transition: fill 0.3s ease;
-}
-
-.light-mode #github-icon {
-  fill: #24292f;
-}
-
-.dark-mode #github-icon {
-  fill: #ffffff;
+.github-link img {
+  display: block;
 }
 
 .mode-toggle {
@@ -153,6 +145,7 @@ body {
 }
 
 #mode-icon {
+  display: block;
   margin-top: 6px;
   margin-right: 8px;
 }

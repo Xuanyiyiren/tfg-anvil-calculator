@@ -5,10 +5,30 @@ to always get a perfectly forged item in the TerraFirmaGreg modpack.
 
 Link to the tool: https://adrianmiller99.github.io/tfg-anvil-calculator/src/index.html
 
+## Local Usage
+
+Run the project through a local HTTP server, then open `src/index.html` in your browser.
+
+```bash
+python3 -m http.server 8000
+```
+
+Or:
+
+```bash
+npx serve .
+```
+
+Then visit:
+
+```text
+http://localhost:8000/src/index.html
+```
+
+Do not open the page directly with `file://.../src/index.html`, because the project now uses JavaScript modules.
+
 
 ## How to Use
-
-
 
 ### 1. Choose Smithing Instructions
 Select up to three smithing instructions from the provided options:
@@ -46,12 +66,27 @@ the order shown on the calculator (left to right, top to bottom), you should hav
 ### 4. Switch Between Light and Dark Modes
 Use the toggle switch in the top right corner to switch between light and dark modes according to your preference.
 
-## Support
+<!-- ## Support
 If you encounter any issues or have suggestions for improvements, 
 feel free to open an issue on the [GitHub repository](https://github.com/AdrianMiller99/tfg-anvil-calculator/issues/new/choose).
 
 If you feel like this tool has helped you and you want to support me, 
-you can do so by buying me a coffee on [Ko-fi](https://ko-fi.com/adrianmiller99) or by simply giving the repository a star.
+you can do so by buying me a coffee on [Ko-fi](https://ko-fi.com/adrianmiller99) or by simply giving the repository a star. -->
+
+## Recent Changes
+
+The recent updates fall into two main areas:
+
+1. The frontend scripts were split into separate modules for theme handling, UI behavior, and calculation logic.
+2. The forging calculation was rewritten to follow the TerraFirmaCraft anvil logic more closely:
+   - It first enumerates valid end-step sequences that satisfy the instruction rules.
+   - It then computes the shortest setup sequence for each candidate.
+   - It also checks that the work value stays within the valid in-game range during the whole process.
+
+Reference implementation from TerraFirmaCraft:
+- [ForgeStep.java](https://raw.githubusercontent.com/TerraFirmaCraft/TerraFirmaCraft/1.21.x/src/main/java/net/dries007/tfc/common/component/forge/ForgeStep.java)
+- [ForgeRule.java](https://raw.githubusercontent.com/TerraFirmaCraft/TerraFirmaCraft/1.21.x/src/main/java/net/dries007/tfc/common/component/forge/ForgeRule.java)
+- [AnvilBlockEntity.java](https://raw.githubusercontent.com/TerraFirmaCraft/TerraFirmaCraft/1.21.x/src/main/java/net/dries007/tfc/common/blockentities/AnvilBlockEntity.java)
 
 # License
 This project is licensed under the European Union Public Licence (EUPL) 1.2. See the LICENSE file for details.
